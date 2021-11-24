@@ -1,9 +1,10 @@
 import torch
 import random 
 import numpy as np 
-from snake import SnakeGame, Direction, Point
+from snake_rl import SnakeGame, Direction, Point
 from collections import deque
 from model import LinearQNet, QTrainer
+from plotter import plot_scores
 
 
 MAX_MEMORY = 100000
@@ -37,17 +38,17 @@ class Agent:
           (dir_r and game.is_collision(point_r)) or 
           (dir_l and game.is_collision(point_l)) or 
           (dir_u and game.is_collision(point_u)) or 
-          (dir_d and game.is_collision(point_d))  
+          (dir_d and game.is_collision(point_d)),  
           # check if danger is right
           (dir_u and game.is_collision(point_r)) or 
           (dir_d and game.is_collision(point_l)) or 
           (dir_l and game.is_collision(point_u)) or 
-          (dir_r and game.is_collision(point_d))  
+          (dir_r and game.is_collision(point_d)), 
           # check if danger is left
           (dir_d and game.is_collision(point_r)) or 
           (dir_u and game.is_collision(point_l)) or 
           (dir_r and game.is_collision(point_u)) or 
-          (dir_l and game.is_collision(point_d))  
+          (dir_l and game.is_collision(point_d)),   
           # move direction
           dir_l, dir_r, dir_u, dir_d,
           # food location
@@ -81,8 +82,8 @@ class Agent:
       move = random.randint(0, 2)
       final_move[move] = 1
     else:
-      state = torch.tensor(state, dtype=torch.float)
-      prediction = self.model(state)
+      state0 = torch.tensor(state, dtype=torch.float)
+      prediction = self.model(state0)
       # ex: prediction = [3, 1, 0.5] -> get the maximum index
       move = torch.argmax(prediction).item()
       final_move[move] = 1
@@ -107,7 +108,7 @@ def train():
     # trin short term memory
     agent.train_short_memory(current_state, final_move, reward, new_state, done)
     # remember
-    agent.remember()
+    agent.remember(current_state, final_move, reward, new_state, done)
     if done:
       # train long memory (experience replay)
       game.reset()
@@ -117,7 +118,10 @@ def train():
         record = score
         agent.model.save()
       print("Game number:", agent.n_games, "Score:", score, "Record:", record)
-
+      scores.append(score)
+      total_score += score
+      mean_score.append(total_score / agent.n_games)
+      plot_scores(score, mean_score)
 
 if __name__ == "__main__()":
   train() 

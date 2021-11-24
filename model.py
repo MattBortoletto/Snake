@@ -50,12 +50,12 @@ class QTrainer:
     pred_Q = self.model(state)
     # Q_new = R + gamma * max(nex_predicted_Q)
     # pred_Q is an array e.g. [1,0,0] but ...
-    target = pred.clone()
+    target = pred_Q.clone()
     for idx in range(len(done)):
       Q_new = reward[idx]
       if not done[idx]:
         Q_new = reward[idx] + self.gamma * torch.max(self.model(next_state[idx]))
-      target[idx][torch.argmax(action).item()] = Q_new
+      target[idx][torch.argmax(action[idx]).item()] = Q_new
     self.optimizer.zero_grad()
     loss = self.loss(target, pred_Q)
     loss.backward()

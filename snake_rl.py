@@ -38,7 +38,6 @@ class SnakeGame:
     self.clock = pygame.time.Clock()
     # initial game state
     self.reset()
-    self.frame_iteration = 0
 
   def reset(self):
     self.direction = Direction.RIGHT
@@ -49,7 +48,8 @@ class SnakeGame:
     self.score = 0
     self.food = None 
     self._place_food()
-
+    self.frame_iteration = 0
+  
   def _place_food(self):
     x_food = random.randint(1, (self.w - BLOCK_SIZE)//BLOCK_SIZE)*BLOCK_SIZE
     y_food = random.randint(1, (self.h - BLOCK_SIZE)//BLOCK_SIZE)*BLOCK_SIZE
@@ -76,6 +76,7 @@ class SnakeGame:
     if self.is_collision() == True or self.frame_iteration > 100*len(self.snake):
       game_over = True
       reward = -10
+      print("game over")
       return reward, game_over, self.score
     # place new food and/or move
     if self.head == self.food:
@@ -96,7 +97,7 @@ class SnakeGame:
       pt = self.head
     if pt.x > self.w - BLOCK_SIZE or pt.x < 0 or pt.y < 0 or pt.y > self.h - BLOCK_SIZE:
       return True
-    if pt in self.snake[3:]:
+    if pt in self.snake[1:]:
       return True
     return False
 

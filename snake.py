@@ -96,7 +96,7 @@ class SnakeGame:
   def _is_collision(self):
     if self.head.x > self.w - BLOCK_SIZE or self.head.x < 0 or self.head.y < 0 or self.head.y > self.h - BLOCK_SIZE:
       return True
-    if self.head in self.snake[3:]:
+    if self.head in self.snake[1:]:
       return True
     return False
 
