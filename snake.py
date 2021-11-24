@@ -60,7 +60,7 @@ class SnakeGame:
     # collect user input
     for event in pygame.event.get():
       if event.type == pygame.QUIT:
-        pygama.quit()
+        pygame.quit()
         quit()
       if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_a:

@@ -38,6 +38,7 @@ class SnakeGame:
     self.clock = pygame.time.Clock()
     # initial game state
     self.reset()
+    print("init done")
 
   def reset(self):
     self.direction = Direction.RIGHT
@@ -63,7 +64,7 @@ class SnakeGame:
     # collect user input
     for event in pygame.event.get():
       if event.type == pygame.QUIT:
-        pygama.quit()
+        pygame.quit()
         quit()
     # move
     self._move(action)
@@ -89,6 +90,7 @@ class SnakeGame:
     # update ui and clock 
     self._update_ui()
     self.clock.tick(SPEED)
+    print("step played")
     # return game over and score
     return reward, game_over, self.score
     

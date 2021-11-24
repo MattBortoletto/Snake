@@ -4,7 +4,7 @@ import numpy as np
 from snake_rl import SnakeGame, Direction, Point
 from collections import deque
 from model import LinearQNet, QTrainer
-from plotter import plot_scores
+from plotter import live_plot_scores
 
 
 MAX_MEMORY = 100000
@@ -91,8 +91,8 @@ class Agent:
 
 
 def train():
-  scores = []
-  mean_scores = []
+  plot_scores = []
+  plot_mean_scores = []
   total_score = 0
   record = 0
   agent = Agent()
@@ -117,11 +117,11 @@ def train():
       if score > record:
         record = score
         agent.model.save()
-      print("Game number:", agent.n_games, "Score:", score, "Record:", record)
-      scores.append(score)
+      print("Game number:", agent.n_games, "\tScore:", score, "\tRecord:", record)
+      plot_scores.append(score)
       total_score += score
-      mean_score.append(total_score / agent.n_games)
-      plot_scores(score, mean_score)
+      plot_mean_scores.append(total_score / agent.n_games)
+      live_plot_scores(plot_scores, plot_mean_scores)
 
 if __name__ == "__main__()":
   train() 
