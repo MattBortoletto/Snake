@@ -15,7 +15,7 @@ class Direction(Enum):
 Point = namedtuple("Point", "x, y")
 
 BLOCK_SIZE = 20
-SPEED = 60
+SPEED = 200
 
 font = pygame.font.SysFont('arial', 25)
 

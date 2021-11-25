@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plt
 from IPython import display
+import numpy as np 
 
-#plt.ion()
+plt.ion()
 
 def live_plot_scores(scores, mean_scores=None):
   display.clear_output(wait=True)
@@ -17,12 +18,10 @@ def live_plot_scores(scores, mean_scores=None):
   plt.grid(ls="--")
   plt.ylim(ymin=0)
   plt.text(len(scores)-1, scores[-1], str(scores[-1]))
-  plt.text(len(mean_scores)-1, mean_scores[-1], str(mean_scores[-1]))
   plt.show(block=False)
   plt.pause(0.1)
 
-
-def moving_average(x, n=20) :
+def moving_average(x, n=10) :
   ret = np.cumsum(x, dtype=float)
   ret[n:] = ret[n:] - ret[:-n]
   return ret[n - 1:] / n

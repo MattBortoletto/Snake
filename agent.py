@@ -86,7 +86,6 @@ class Agent:
     if random.randint(0, 200) < self.epsilon:
       move = random.randint(0, 2)
       final_move[move] = 1
-      print("greedy")
     else:
       state0 = torch.tensor(state, dtype=torch.float)
       prediction = self.model(state0)
@@ -97,6 +96,7 @@ class Agent:
 
 
 def train():
+  print("Training...")
   plot_scores = []
   plot_mean_scores = []
   total_score = 0
@@ -146,6 +146,6 @@ def play():
       print("Game over! Score:", score, "\tRecord:", record)
   
 if __name__ == "__main__":
-  #train() 
-  play()
+  train() 
+  #play()
 
