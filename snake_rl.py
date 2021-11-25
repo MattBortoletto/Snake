@@ -15,7 +15,7 @@ class Direction(Enum):
 Point = namedtuple("Point", "x, y")
 
 BLOCK_SIZE = 20
-SPEED = 10
+SPEED = 60
 
 font = pygame.font.SysFont('arial', 25)
 
@@ -38,7 +38,6 @@ class SnakeGame:
     self.clock = pygame.time.Clock()
     # initial game state
     self.reset()
-    print("init done")
 
   def reset(self):
     self.direction = Direction.RIGHT
@@ -77,7 +76,6 @@ class SnakeGame:
     if self.is_collision() == True or self.frame_iteration > 100*len(self.snake):
       game_over = True
       reward = -10
-      print("game over")
       return reward, game_over, self.score
     # place new food and/or move
     if self.head == self.food:
@@ -90,7 +88,6 @@ class SnakeGame:
     # update ui and clock 
     self._update_ui()
     self.clock.tick(SPEED)
-    print("step played")
     # return game over and score
     return reward, game_over, self.score
     

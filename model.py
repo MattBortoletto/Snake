@@ -19,10 +19,12 @@ class LinearQNet(nn.Module):
   def save(self, filename='model.pth'):
     model_folder_path = "./model"
     if not os.path.exists(model_folder_path):
-      os.makedirs(model_folder_paths)
+      os.makedirs(model_folder_path)
     filename = os.path.join(model_folder_path, filename)
     torch.save(self.state_dict(), filename)
 
+  def load(self, file_path='./model/model.pth'):
+    self.load_state_dict(torch.load(file_path))
 
 class QTrainer:
   def __init__(self, model, lr, gamma):
@@ -60,4 +62,3 @@ class QTrainer:
     loss = self.loss(target, pred_Q)
     loss.backward()
     self.optimizer.step()
-
